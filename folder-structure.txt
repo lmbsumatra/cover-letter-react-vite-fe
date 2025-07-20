@@ -1,0 +1,56 @@
+src/
+│
+├── assets/               # Static assets (images, icons, fonts, etc.)
+│
+├── components/           # Reusable UI components (buttons, modals, etc.)
+│   └── Button/
+│       ├── Button.tsx
+│       ├── Button.test.tsx
+│       └── index.ts
+│
+├── features/             # Feature-based structure (per domain/logic)
+│   └── auth/
+│       ├── components/
+│       │   └── LoginForm.tsx
+│       ├── hooks/
+│       │   └── useLogin.ts
+│       ├── services/
+│       │   └── authService.ts
+│       ├── pages/
+│       │   └── LoginPage.tsx
+│       ├── types.ts
+│       └── index.ts
+│
+├── layouts/              # Page layout wrappers
+│   └── MainLayout.tsx
+│
+├── pages/                # Entry-point pages (minimal logic, mostly composition)
+│   └── Home/
+│       ├── HomePage.tsx
+│       └── index.ts
+│
+├── routes/               # Centralized route definitions
+│   ├── routes.tsx
+│   └── ProtectedRoute.tsx
+│
+├── store/                # Global state (Zustand, Redux, etc.)
+│   └── useUserStore.ts
+│
+├── hooks/                # Global reusable hooks (not feature-specific)
+│   └── useDebounce.ts
+│
+├── utils/                # Utility functions/helpers
+│   └── formatDate.ts
+│
+├── types/                # Global TypeScript types and interfaces
+│   └── api.ts
+│
+├── constants/            # App-wide constants (e.g., routes, enums)
+│   └── routes.ts
+│
+├── services/             # API & service handlers (global)
+│   └── axiosInstance.ts
+│
+├── App.tsx               # App entry
+├── main.tsx              # Root ReactDOM.render (or hydrate)
+└── index.css             # Tailwind or global styles
