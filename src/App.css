@@ -40,3 +40,24 @@
 .read-the-docs {
   color: #888;
 } */
+
+#root {
+  --radial-color1: #1e1b4b;
+  --radial-color2: #0f0f23;
+}
+
+.bg-radial {
+  background: radial-gradient(
+    /* shape and what position of the circle */ circle at 50% 0%,
+    /* starting point of the color */ var(--radial-color1) 0%,
+    /* like i the radial on its 70%, transition */ var(--radial-color2) 70%
+  );
+}
+
+.bg-blue-dark {
+  background-color: #0f0f23;
+}
+
+.bg-blue-light {
+  background-color: #1e1b4b;
+}

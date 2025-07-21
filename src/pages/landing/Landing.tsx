@@ -1,8 +1,15 @@
+import EditorSection from "../../features/EditorSection";
+import HeroSection from "../../features/HeroSection";
+import NavBarSection from "../../features/NavBarSection";
+
 export default function Landing() {
   return (
-    <div className="bg-red-400 text-white p-8">
-      <h1>Welcome to the Landing Page</h1>
-      <p>This is the landing page of our application.</p>
+    <div className="bg-radial flex flex-col items-center justify-center overflow-hidden relative">
+      <NavBarSection />
+
+      <HeroSection />
+
+      <EditorSection />
     </div>
   );
 }
