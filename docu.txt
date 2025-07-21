@@ -1,0 +1,6 @@
+1. npm create vite@latest cover-letter-react-vite-fe -- --template react-ts
+2. npm install react-router-dom
+3. npm install tailwindcss @tailwindcss/vite >> https://tailwindcss.com/docs/installation/using-vite
+4. npm install @reduxjs/toolkit react-redux axios
+5. npm install --save-dev @types/react-redux
+
