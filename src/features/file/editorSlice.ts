@@ -52,20 +52,10 @@ export const editorSlice = createSlice({
         toggleMenuExpand: (state) => {
             state.menuExpand = !state.menuExpand
         },
-        updatePlaceholderValue: (state, action: PayloadAction<{ id: number, name: string, value: string }>) => {
-           
-            const template = state.templates.find(template => template.id === action.payload.id)
-             
-            if (template) {
-                const placeholder = template.placeholders.find(ph => ph.name === action.payload.name)
-                if (placeholder) {
-                    placeholder.value = action.payload.value
-                }
-            }
-        }
+
     },
 })
 
-export const { toggleMenuExpand, updateContent, updatePlaceholderValue } = editorSlice.actions
+export const { toggleMenuExpand, updateContent } = editorSlice.actions
 
 export const editorSliceReducer = editorSlice.reducer

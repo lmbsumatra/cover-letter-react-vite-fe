@@ -3,4 +3,22 @@
 3. npm install tailwindcss @tailwindcss/vite >> https://tailwindcss.com/docs/installation/using-vite
 4. npm install @reduxjs/toolkit react-redux axios
 5. npm install --save-dev @types/react-redux
+6. npm install zod
+7. npm install react-hook-form @hookform/resolvers
 
+understanding redux - zod - react-hook-form combo - typescript:
+1. set zod validation
+const formSchema = z.object({
+    name: z.string().min(1, "Required")
+})
+
+2. infer schema to use as type
+export type form = z.infer<typeof formSchema>
+
+3. in form component:
+const {register // to use for checking input,
+        handleSubmit // triggers form to submit and check form,
+        formState: {errors} // to get error.message} = useForm<formSchema>({resolver: zodResolver<form>}, mode: // onChange, onBlur..., defaultValues: usetheform initialState)
+
+    a. <Input {...register(form.name)}
+    b. wrap inputs in <form onSubmit={handleSubmit(yourFunction)}>

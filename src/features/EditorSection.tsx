@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from "../hooks/useAppSelector";
-import {
-  toggleMenuExpand,
-  updateContent,
-  updatePlaceholderValue,
-} from "./file/editorSlice";
+import { toggleMenuExpand, updateContent } from "./file/editorSlice";
+import { useForm, type FieldErrors } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TemplateSchema } from "./file/editorTypes";
+import type { Template } from "./file/editorTypes";
 
 export default function EditorSection() {
   const actionBtns = [
@@ -18,6 +18,24 @@ export default function EditorSection() {
   const activeTemplate = templates.find(
     (template) => template.id === activeTemplateId
   );
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Template>({
+    resolver: zodResolver(TemplateSchema),
+    mode: "onChange",
+    defaultValues: activeTemplate ?? undefined,
+  });
+
+  const onSubmit = (data: Template) => {
+    console.log(data);
+  };
+
+  const onError = (err: FieldErrors<Template>) => {
+    console.error("Form submission failed with errors:", err);
+  };
 
   return (
     <div className="flex border-y-1 lg:border-x-1 border-white/10 mx-auto w-full">
@@ -110,66 +128,68 @@ export default function EditorSection() {
           )}
 
           {/* right side:  */}
-          <div className="">
-            <div className="lg:border-l-1 border-white/10 bg-white/1 p-5 border-b-1 sm:border-t-1 lg:border-t-0">
-              <h3 className="text-white font-medium">Customize Letter</h3>
-              <p className="text-white/20 font-light text-[12px]">
-                Fill in placeholder values and export
-              </p>
-            </div>
+          <form onSubmit={handleSubmit(onSubmit, onError)}>
+            <div className="">
+              <div className="lg:border-l-1 border-white/10 bg-white/1 p-5 border-b-1 sm:border-t-1 lg:border-t-0">
+                <h3 className="text-white font-medium">Customize Letter</h3>
+                <p className="text-white/20 font-light text-[12px]">
+                  Fill in placeholder values and export
+                </p>
+              </div>
 
-            <div className="lg:border-l-1 border-white/10 p-5 flex flex-col gap-4 max-h-100 overflow-y-auto">
-              <div className="border-1 border-l-4 border-white/10 pl-2 rounded-lg flex flex-col gap-2 py-4">
-                <h3 className="text-white/50 text-[12px] font-medium">
-                  Detected Placeholders
-                </h3>
-                <div className="flex flex-wrap gap-2">
+              <div className="lg:border-l-1 border-white/10 p-5 flex flex-col gap-4 max-h-100 overflow-y-auto">
+                <div className="border-1 border-l-4 border-white/10 pl-2 rounded-lg flex flex-col gap-2 py-4">
+                  <h3 className="text-white/50 text-[12px] font-medium">
+                    Detected Placeholders
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {activeTemplate?.placeholders.map((placeholder, i) => (
+                      <div
+                        key={i}
+                        className="w-fit px-2 bg-red-500 rounded-full text-[12px] font-medium text-white"
+                      >
+                        {placeholder.name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* inputs for custom content */}
+                <div>
                   {activeTemplate?.placeholders.map((placeholder, i) => (
-                    <div
-                      key={i}
-                      className="w-fit px-2 bg-red-500 rounded-full text-[12px] font-medium text-white"
-                    >
-                      {placeholder.name}
+                    <div key={i} className="flex flex-col gap-1">
+                      <label className="text-[12px] font-light text-white">
+                        {placeholder.name}
+                      </label>
+                      <input
+                        {...register(`placeholders.${i}.value`)}
+                        placeholder={`e.g. Your ${placeholder.name}`}
+                        className="border-1 border-white/10 rounded p-2 text-[12px] font-light text-white focus:outline-2 focus:outline-blue-100/10"
+                      />
+                      {errors.placeholders?.[i]?.value?.message && (
+                        <p className="text-red-500 text-[11px] font-light">
+                          {errors.placeholders?.[i]?.value?.message}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
-              </div>
 
-              {/* inputs for custom content */}
-              <div>
-                {activeTemplate?.placeholders.map((placeholder, i) => (
-                  <div key={i} className="flex flex-col gap-1">
-                    <label className="text-[12px] font-light text-white">
-                      {placeholder.name}
-                    </label>
-                    <input
-                      placeholder={`e.g. Your ${placeholder.name}`}
-                      onChange={(e) =>
-                        dispatch(
-                          updatePlaceholderValue({
-                            id: activeTemplate.id,
-                            name: placeholder.name,
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                      className="border-1 border-white/10 rounded p-2 text-[12px] font-light text-white focus:outline-2 focus:outline-blue-100/10"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* custom content action btns */}
-              <div className="flex gap-2">
-                <button className="w-fit bg-white/10 hover:bg-white/20 backdrop-blur-2xl text-white py-1 px-4 rounded-lg border-1 border-white/10 text-md font-light transition-colors duration-300">
-                  Preview
-                </button>
-                <button className="w-full  bg-white/10 hover:bg-white/20 backdrop-blur-2xl text-white py-1 px-4 rounded-lg border-1 border-white/10 text-md font-light transition-colors duration-300">
-                  Generate PDF
-                </button>
+                {/* custom content action btns */}
+                <div className="flex gap-2">
+                  <button className="w-fit bg-white/10 hover:bg-white/20 backdrop-blur-2xl text-white py-1 px-4 rounded-lg border-1 border-white/10 text-md font-light transition-colors duration-300">
+                    Preview
+                  </button>
+                  <button
+                    type="submit"
+                    className="w-full  bg-white/10 hover:bg-white/20 backdrop-blur-2xl text-white py-1 px-4 rounded-lg border-1 border-white/10 text-md font-light transition-colors duration-300"
+                  >
+                    Generate PDF
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
