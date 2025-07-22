@@ -38,7 +38,7 @@ export default function EditorSection() {
   };
 
   return (
-    <div className="flex border-y-1 lg:border-x-1 border-white/10 mx-auto w-full">
+    <div className="flex border-y-1 lg:border-x-1 border-white/10 mx-auto w-full" id="tryhere">
       {/* file menu */}
       <div
         className={` ${

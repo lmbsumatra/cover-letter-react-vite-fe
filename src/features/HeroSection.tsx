@@ -1,6 +1,6 @@
 export default function HeroSection() {
   return (
-    <div className="text-center h-screen flex flex-col items-center justify-center">
+    <div className="text-center h-screen flex flex-col items-center justify-center" id="home">
       <h1 className="bg-gradient-to-r from-blue-900 to-red-400 bg-clip-text text-transparent text-[72px] font-extrabold mb-4">
         CoverCraft
       </h1>

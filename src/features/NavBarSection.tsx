@@ -1,10 +1,11 @@
 export default function NavBarSection() {
   const navLinks = [
-    { name: "Up", href: "#up" },
+    { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
     { name: "Try here", href: "#tryhere" },
+    { name: "Contact", href: "#contact" },
     { name: "Log in", href: "#login" },
-    { name: "Sign up", href: "#signup", isPrimary: true},
+    { name: "Sign up", href: "#signup", isPrimary: true },
   ];
 
   return (
@@ -12,7 +13,14 @@ export default function NavBarSection() {
       <ul className="flex gap-12">
         {navLinks.map((link) => (
           <li key={link.name}>
-            <a href={link.href} className={`text-white font-medium ${link.isPrimary ? "bg-white/20 px-3 py-2 rounded-lg border-1 border-white/40 backdrop-blur-2xl hover:bg-white/40": ""} transition-all`}>
+            <a
+              href={link.href}
+              className={`text-white font-medium ${
+                link.isPrimary
+                  ? "bg-white/20 px-3 py-2 rounded-lg border-1 border-white/40 backdrop-blur-2xl hover:bg-white/40"
+                  : ""
+              } transition-all`}
+            >
               {link.name}
             </a>
           </li>
